@@ -3,12 +3,13 @@ cl_client_t cl_olxdb;
 void OlxDbConnect(){
     cl_InitClient(&cl_olxdb);
     Init_olxdb_REQPack();
-    cl_ClientConnect(&cl_olxdb,"192.168.0.105",9997);
-    printf("CONNECT OLX DB\n");
-    RES_olxdb_auth_t authdb;
-    CreateRES_olxdb_auth(&authdb);
-    strcpy(&authdb.authcode,"niger");
-    cl_SendPack(&cl_olxdb,&authdb,NULL,NULL);
+    if(cl_ClientConnect(&cl_olxdb,"192.168.0.105",9997)==0){
+        printf("CONNECT OLX DB\n");
+        RES_olxdb_auth_t authdb;
+        CreateRES_olxdb_auth(&authdb);
+        strcpy(&authdb.authcode,"niger");
+        cl_SendPack(&cl_olxdb,&authdb,NULL,NULL);
+    }
 }
 void CreateRES_olxdb_auth(RES_olxdb_auth_t* auth){
     cl_CreatePackRes(&auth->pack);
