@@ -31,3 +31,4 @@ bool REQ_authclient_jsontoobject(REQ_authclient_t* auth,json_value* values);
 void REQ_authclient_process(REQ_authclient_t* auth,sv_user_t* user);
 
 void InitREQPack(sv_server_t* server);
+void OlxServerDBStart();

@@ -76,3 +76,9 @@ void InitREQPack(sv_server_t* server){
     sv_serv_adduserpacks(server,CreateREQ_auth,sizeof(REQ_auth_t),1);
     sv_serv_adduserpacks(server,CreateREQ_authclient,sizeof(REQ_authclient_t),3);
 }
+void OlxServerDBStart(){
+    sv_server_t serv;
+    sv_ServerInit(&serv,9998,10);
+    InitREQPack(&serv);
+    sv_ServerStart(&serv,sizeof(dbclient_t),CreateDBClient,ClearDBClient);
+}
