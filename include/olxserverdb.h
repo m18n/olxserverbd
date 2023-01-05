@@ -1,6 +1,10 @@
 #pragma once
 #include"../server/include/server.h"
-#include"olxdb.h"
+#include"olxusersdb.h"
+typedef struct infosend{
+    sv_user_t* user;
+    int indexpack;
+}infosend_t;
 typedef struct dbclient{
     sv_user_t client;
     bool auth;
@@ -32,3 +36,4 @@ void REQ_authclient_process(REQ_authclient_t* auth,sv_user_t* user);
 
 void InitREQPack(sv_server_t* server);
 void OlxServerDBStart();
+void R_CheckAuth(REQ_olxusersdb_status_t* status,void* data);

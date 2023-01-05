@@ -1,7 +1,7 @@
 #include"olxserverdb.h"
 int main(){
     printf("HELLO SERVER START BD\n");
-    OlxDbConnect();
+    OlxUsersDbConnect();
     OlxServerDBStart();
    
     return 0;

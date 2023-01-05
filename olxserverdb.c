@@ -63,14 +63,30 @@ bool REQ_authclient_jsontoobject(REQ_authclient_t* auth,json_value* values){
     }
     return false;
 }
+void R_CheckAuth(REQ_olxusersdb_status_t* status,void* data){
+    infosend_t* info=data;
+    RES_status_t resstatus;
+    CreateRES_status(&resstatus);
+    resstatus.code=status->code;
+    sv_SendPackResIndex(info->user,&resstatus,info->indexpack);
+    free(data);
+}   
 void REQ_authclient_process(REQ_authclient_t* auth,sv_user_t* user){
     RES_status_t status;
     CreateRES_status(&status);
     status.code=0;
-    if(strcmp(auth->name,"misha")==0&&strcmp(auth->password,"123")==0){
-        status.code=1;
-    }
-    sv_SendPackRes(user,&status,auth);
+    RES_olxusersdb_checkauth_t check;
+    CreateRES_olxusersdb_checkauth(&check);
+    strcpy(check.name,auth->name);
+    strcpy(check.password,auth->password);
+    infosend_t* info=malloc(sizeof(infosend_t));
+    info->indexpack=auth->pack.indexpack;
+    info->user=user;
+    cl_SendPack(&cl_olxusersdb,&check,R_CheckAuth,info);
+    // if(strcmp(auth->name,"misha")==0&&strcmp(auth->password,"123")==0){
+    //     status.code=1;
+    // }
+    // sv_SendPackRes(user,&status,auth);
 }
 void InitREQPack(sv_server_t* server){
     sv_serv_adduserpacks(server,CreateREQ_auth,sizeof(REQ_auth_t),1);
